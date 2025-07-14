@@ -45,7 +45,8 @@ app.post('/adicionar', (req, res) => {
     // Assign sequential id
     let nextId = 1;
     if (items.length > 0) {
-        nextId = Math.max(...items.map(i => i.id || 0)) + 1;
+        // Filter only items with valid id, fallback to 0 if missing
+        nextId = Math.max(...items.map(i => typeof i.id === 'number' ? i.id : 0)) + 1;
     }
     items.push({ id: nextId, nome, producto });
     fs.writeFileSync(JSON_FILE, JSON.stringify(items, null, 2));
