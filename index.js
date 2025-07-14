@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 9079;
-const CSV_FILE = path.join(__dirname, 'tainada.csv');
+const CSV_FILE = path.join(__dirname, 'data.csv');
 
 // Ensure CSV file exists with header
 if (!fs.existsSync(CSV_FILE)) {
@@ -19,11 +19,12 @@ app.use(express.static(path.join(__dirname)));
 app.get('/todos', (req, res) => {
     // Create CSV file if it doesn't exist
     if (!fs.existsSync(CSV_FILE)) {
-        fs.writeFileSync(CSV_FILE, '');
+        fs.writeFileSync(CSV_FILE, 'nome,producto\n');
     }
     const csv = fs.readFileSync(CSV_FILE, 'utf8');
     const lines = csv.trim() ? csv.trim().split('\n') : [];
-    const items = lines.map(line => {
+    // Remove header line
+    const items = lines.slice(1).map(line => {
         const [nome, producto] = line.split(',');
         return { nome, producto };
     });
@@ -40,7 +41,7 @@ app.post('/adicionar', (req, res) => {
 });
 
 // Serve CSV file directly
-app.get('/tainada.csv', (req, res) => {
+app.get('/data.csv', (req, res) => {
     res.sendFile(CSV_FILE);
 });
 
