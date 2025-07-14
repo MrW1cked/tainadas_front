@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load items from server JSON
     function carregarLista() {
         fetch('/todos')
+            // Fetch items from the server
             .then(res => res.json())
             .then(data => {
                 lista.innerHTML = '';
