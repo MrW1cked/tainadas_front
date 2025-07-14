@@ -62,7 +62,11 @@ app.post('/adicionar', (req, res) => {
 // Delete item by id
 app.delete('/eliminar/:id', (req, res) => {
     const id = parseInt(req.params.id);
-    if (isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
+    console.log('DELETE request received for id:', id);
+    if (isNaN(id)) {
+        console.log('ID inválido:', req.params.id);
+        return res.status(400).json({ error: 'ID inválido' });
+    }
     let items = [];
     if (fs.existsSync(JSON_FILE)) {
         try {
@@ -73,10 +77,12 @@ app.delete('/eliminar/:id', (req, res) => {
     }
     const idx = items.findIndex(i => i.id === id);
     if (idx === -1) {
+        console.log('Item não encontrado para id:', id);
         return res.status(404).json({ error: 'Item não encontrado' });
     }
     items.splice(idx, 1);
     fs.writeFileSync(JSON_FILE, JSON.stringify(items, null, 2));
+    console.log('Item removido com sucesso:', id);
     res.json({ success: true });
 });
 
