@@ -1,15 +1,21 @@
-# Use the official Nginx image to serve static files
-FROM nginx:alpine
+# Use official Node.js image
+FROM node:20-alpine
 
-# Remove default nginx static assets
-RUN rm -rf /usr/share/nginx/html/*
+# Set working directory
+WORKDIR /app
 
-# Copy static site files to nginx public folder
-COPY . /usr/share/nginx/html
+# Copy package.json and package-lock.json if present
+COPY package.json ./
 
-# Expose the desired port
+# Install dependencies
+RUN npm install
+
+# Copy all project files
+COPY . ./
+
+# Expose port 9079
 EXPOSE 9079
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the Node.js server
+CMD ["node", "index.js"]
 
