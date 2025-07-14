@@ -7,6 +7,11 @@ const app = express();
 const PORT = 9079;
 const CSV_FILE = path.join(__dirname, 'tainada.csv');
 
+// Ensure CSV file exists with header
+if (!fs.existsSync(CSV_FILE)) {
+    fs.writeFileSync(CSV_FILE, 'nome,producto\n');
+}
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
