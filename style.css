@@ -1,0 +1,120 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.background-forest {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat;
+    filter: brightness(0.6) blur(2px);
+}
+.food-anim {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+}
+.dish {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    opacity: 0.85;
+    animation: moveDish 12s linear infinite;
+}
+@keyframes moveDish {
+    0% { left: -100px; }
+    100% { left: 100vw; }
+}
+
+.main-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(30, 30, 30, 0.6);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 40px 32px;
+    min-width: 340px;
+    max-width: 420px;
+    z-index: 2;
+    text-align: center;
+}
+.main-content h1 {
+    font-size: 2.8em;
+    margin-bottom: 18px;
+    color: #fff;
+    text-shadow: 0 2px 8px #000a, 0 0 20px #00ffe7;
+}
+.main-content .welcome {
+    font-size: 1.2em;
+    margin-bottom: 24px;
+    color: #e0e0e0;
+    background: rgba(0,0,0,0.3);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0004;
+}
+.main-content .location {
+    margin-bottom: 24px;
+}
+.main-content .location a {
+    color: #00ffe7;
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 1.1em;
+}
+.main-content form {
+    margin-bottom: 24px;
+    background: rgba(0,0,0,0.2);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #0003;
+}
+.main-content input {
+    padding: 10px;
+    margin-right: 8px;
+    border: 1px solid #00ffe7;
+    border-radius: 6px;
+    background: #222;
+    color: #fff;
+    font-size: 1em;
+}
+.main-content button {
+    padding: 10px 20px;
+    background: linear-gradient(90deg,#00ffe7,#0077ff);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 8px #00ffe7a0;
+    transition: background 0.3s;
+}
+.main-content button:hover {
+    background: linear-gradient(90deg,#0077ff,#00ffe7);
+}
+.main-content ul#lista {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+.main-content ul#lista li {
+    background: rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+    padding: 14px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px #0003;
+    color: #fff;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+}
