@@ -1,6 +1,17 @@
 [
   {
-    "nome": "Sousa",
-    "producto": "Caaarne da boua"
+    "id": 1,
+    "nome": "Nuno",
+    "producto": "123"
+  },
+  {
+    "id": 2,
+    "nome": "nUNO ",
+    "producto": "sASD"
+  },
+  {
+    "id": 3,
+    "nome": "asd",
+    "producto": "asd"
   }
 ]

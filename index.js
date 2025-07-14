@@ -42,7 +42,33 @@ app.post('/adicionar', (req, res) => {
             items = [];
         }
     }
-    items.push({ nome, producto });
+    // Assign sequential id
+    let nextId = 1;
+    if (items.length > 0) {
+        nextId = Math.max(...items.map(i => i.id || 0)) + 1;
+    }
+    items.push({ id: nextId, nome, producto });
+    fs.writeFileSync(JSON_FILE, JSON.stringify(items, null, 2));
+    res.json({ success: true });
+});
+
+// Delete item by id
+app.delete('/eliminar/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) return res.status(400).json({ error: 'ID inválido' });
+    let items = [];
+    if (fs.existsSync(JSON_FILE)) {
+        try {
+            items = JSON.parse(fs.readFileSync(JSON_FILE, 'utf8'));
+        } catch (e) {
+            items = [];
+        }
+    }
+    const idx = items.findIndex(i => i.id === id);
+    if (idx === -1) {
+        return res.status(404).json({ error: 'Item não encontrado' });
+    }
+    items.splice(idx, 1);
     fs.writeFileSync(JSON_FILE, JSON.stringify(items, null, 2));
     res.json({ success: true });
 });
