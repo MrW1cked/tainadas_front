@@ -9,10 +9,10 @@ body {
 }
 .background-forest {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 0;
+    top: 0; left: 0; width: 100vw; height: 100vh;
     background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') center center/cover no-repeat;
-    filter: brightness(0.6) blur(2px);
+    filter: blur(2px) brightness(0.7);
+    z-index: 0;
 }
 .food-anim {
     position: fixed;
@@ -20,16 +20,45 @@ body {
     pointer-events: none;
     z-index: 1;
 }
-.dish {
+/* Futuristic floating food animation styles (example, adjust in food.js) */
+.food-item {
     position: absolute;
     width: 64px;
     height: 64px;
     opacity: 0.85;
-    animation: moveDish 12s linear infinite;
+    filter: drop-shadow(0 4px 16px #00ffe7cc);
+    animation: floatFood 16s linear infinite;
 }
-@keyframes moveDish {
-    0% { left: -100px; }
-    100% { left: 100vw; }
+@keyframes floatFood {
+    0% { transform: translateY(0) scale(1) rotate(0deg); }
+    20% { transform: translateY(-40px) scale(1.1) rotate(12deg); }
+    40% { transform: translateY(30px) scale(0.95) rotate(-8deg); }
+    60% { transform: translateY(-20px) scale(1.05) rotate(8deg); }
+    80% { transform: translateY(20px) scale(1) rotate(-12deg); }
+    100% { transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+.location-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 32px 0 24px 0;
+}
+
+.location, .date, .birthday {
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: 0 2px 8px #222;
+}
+.date {
+    font-size: 1.1em;
+    margin-left: 8px;
+}
+.birthday {
+    margin-top: 10px;
+    font-size: 1.2em;
+    letter-spacing: 1px;
 }
 
 .main-content {
@@ -37,84 +66,96 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(30, 30, 30, 0.6);
+    background: rgba(30, 30, 30, 0.7);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.18);
-    padding: 40px 32px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 40px 48px 32px 48px;
     min-width: 340px;
-    max-width: 420px;
+    max-width: 480px;
     z-index: 2;
-    text-align: center;
 }
-.main-content h1 {
+
+.main-title {
     font-size: 2.8em;
-    margin-bottom: 18px;
+    font-family: 'Orbitron', 'Montserrat', Arial, sans-serif;
     color: #fff;
-    text-shadow: 0 2px 8px #000a, 0 0 20px #00ffe7;
+    text-align: center;
+    letter-spacing: 2px;
+    text-shadow: 0 4px 24px #0f0f0f, 0 1px 0 #00ffe7;
+    margin-bottom: 18px;
 }
-.main-content .welcome {
-    font-size: 1.2em;
-    margin-bottom: 24px;
+
+.welcome {
     color: #e0e0e0;
-    background: rgba(0,0,0,0.3);
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px #0004;
-}
-.main-content .location {
-    margin-bottom: 24px;
-}
-.main-content .location a {
-    color: #00ffe7;
-    font-weight: bold;
-    text-decoration: underline;
     font-size: 1.1em;
-}
-.main-content form {
+    text-align: center;
     margin-bottom: 24px;
-    background: rgba(0,0,0,0.2);
-    padding: 12px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px #0003;
+    text-shadow: 0 2px 8px #222;
 }
-.main-content input {
-    padding: 10px;
-    margin-right: 8px;
-    border: 1px solid #00ffe7;
-    border-radius: 6px;
-    background: #222;
+
+form#addForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0 16px 0;
+}
+form#addForm input {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.15);
     color: #fff;
     font-size: 1em;
+    outline: none;
+    box-shadow: 0 2px 8px #22222244;
 }
-.main-content button {
-    padding: 10px 20px;
-    background: linear-gradient(90deg,#00ffe7,#0077ff);
-    color: #fff;
+form#addForm input::placeholder {
+    color: #b0eaff;
+    opacity: 0.8;
+}
+form#addForm button {
+    padding: 12px 0;
+    border-radius: 8px;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
+    background: linear-gradient(90deg, #00ffe7 0%, #0077ff 100%);
+    color: #222;
     font-weight: bold;
-    box-shadow: 0 2px 8px #00ffe7a0;
+    font-size: 1.1em;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #22222244;
     transition: background 0.3s;
 }
-.main-content button:hover {
-    background: linear-gradient(90deg,#0077ff,#00ffe7);
+form#addForm button:hover {
+    background: linear-gradient(90deg, #0077ff 0%, #00ffe7 100%);
 }
-.main-content ul#lista {
+
+#lista {
     list-style: none;
     padding: 0;
-    margin-top: 10px;
-}
-.main-content ul#lista li {
-    background: rgba(0,0,0,0.5);
-    margin-bottom: 8px;
-    padding: 14px;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px #0003;
+    margin: 0;
     color: #fff;
-    font-size: 1.1em;
-    letter-spacing: 1px;
+    font-size: 1.08em;
+    text-shadow: 0 2px 8px #222;
+}
+#lista li {
+    background: rgba(0,0,0,0.18);
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #22222222;
+}
+
+.location a {
+    color: #00ffe7;
+    font-weight: bold;
+    text-shadow: 0 2px 8px #222, 0 0 8px #00ffe7;
+    text-decoration: none;
+    font-size: 1.15em;
+    transition: color 0.2s;
+}
+.location a:hover {
+    color: #fff;
+    text-shadow: 0 2px 8px #00ffe7, 0 0 12px #fff;
 }
