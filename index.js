@@ -12,9 +12,12 @@ app.use(express.static(path.join(__dirname)));
 
 // Get all items from CSV
 app.get('/todos', (req, res) => {
-    if (!fs.existsSync(CSV_FILE)) return res.json([]);
+    // Create CSV file if it doesn't exist
+    if (!fs.existsSync(CSV_FILE)) {
+        fs.writeFileSync(CSV_FILE, '');
+    }
     const csv = fs.readFileSync(CSV_FILE, 'utf8');
-    const lines = csv.trim().split('\n');
+    const lines = csv.trim() ? csv.trim().split('\n') : [];
     const items = lines.map(line => {
         const [nome, producto] = line.split(',');
         return { nome, producto };
@@ -39,4 +42,3 @@ app.get('/tainada.csv', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Tainada server running on http://localhost:${PORT}`);
 });
-
