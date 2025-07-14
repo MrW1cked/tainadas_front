@@ -42,11 +42,17 @@ app.post('/adicionar', (req, res) => {
             items = [];
         }
     }
+    // Ensure all items have an id
+    items = items.map((item, idx) => {
+        if (typeof item.id !== 'number') {
+            return { ...item, id: idx + 1 };
+        }
+        return item;
+    });
     // Assign sequential id
     let nextId = 1;
     if (items.length > 0) {
-        // Filter only items with valid id, fallback to 0 if missing
-        nextId = Math.max(...items.map(i => typeof i.id === 'number' ? i.id : 0)) + 1;
+        nextId = Math.max(...items.map(i => i.id)) + 1;
     }
     items.push({ id: nextId, nome, producto });
     fs.writeFileSync(JSON_FILE, JSON.stringify(items, null, 2));
