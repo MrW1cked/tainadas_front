@@ -5,44 +5,46 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 9079;
-const CSV_FILE = path.join(__dirname, 'data.csv');
+const JSON_FILE = path.join(__dirname, 'data.json');
 
-// Ensure CSV file exists with header
-if (!fs.existsSync(CSV_FILE)) {
-    fs.writeFileSync(CSV_FILE, 'nome,producto\n');
+// Ensure JSON file exists
+if (!fs.existsSync(JSON_FILE)) {
+    fs.writeFileSync(JSON_FILE, '[]');
 }
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
-// Get all items from CSV
+// Get all items from JSON
 app.get('/todos', (req, res) => {
-    // Create CSV file if it doesn't exist
-    if (!fs.existsSync(CSV_FILE)) {
-        fs.writeFileSync(CSV_FILE, 'nome,producto\n');
+    if (!fs.existsSync(JSON_FILE)) {
+        fs.writeFileSync(JSON_FILE, '[]');
     }
-    const csv = fs.readFileSync(CSV_FILE, 'utf8');
-    const lines = csv.trim() ? csv.trim().split('\n') : [];
-    // Remove header line
-    const items = lines.slice(1).map(line => {
-        const [nome, producto] = line.split(',');
-        return { nome, producto };
-    });
+    const raw = fs.readFileSync(JSON_FILE, 'utf8');
+    let items = [];
+    try {
+        items = JSON.parse(raw);
+    } catch (e) {
+        items = [];
+    }
     res.json(items);
 });
 
-// Add new item to CSV
+// Add new item to JSON
 app.post('/adicionar', (req, res) => {
     const { nome, producto } = req.body;
     if (!nome || !producto) return res.status(400).json({ error: 'Missing fields' });
-    const line = `${nome},${producto}\n`;
-    fs.appendFileSync(CSV_FILE, line);
+    let items = [];
+    if (fs.existsSync(JSON_FILE)) {
+        try {
+            items = JSON.parse(fs.readFileSync(JSON_FILE, 'utf8'));
+        } catch (e) {
+            items = [];
+        }
+    }
+    items.push({ nome, producto });
+    fs.writeFileSync(JSON_FILE, JSON.stringify(items, null, 2));
     res.json({ success: true });
-});
-
-// Serve CSV file directly
-app.get('/data.csv', (req, res) => {
-    res.sendFile(CSV_FILE);
 });
 
 app.listen(PORT, () => {
